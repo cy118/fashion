@@ -1,0 +1,858 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Fashion API",
+    "description": "APIs for fashion service",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Generated server url"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Brands",
+      "description": "브랜드와 관련된 API"
+    },
+    {
+      "name": "Products",
+      "description": "상품과 관련된 API"
+    }
+  ],
+  "paths": {
+    "/v1/products/{product_id}": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "특정 상품 정보",
+        "operationId": "get",
+        "parameters": [
+          {
+            "name": "product_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductDTO"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "정의되지 않은 상품에 대한 상품 삭제가 요청됨",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "ResourceNotFoundException": {
+                    "description": "상품 id가 존재하지 않은 경우",
+                    "value": {
+                      "statusCode": 404,
+                      "message": "Product not found with id: some-uui",
+                      "details": "uri=/v1/products/{product_id}"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "[구현4] 상품 수정",
+        "operationId": "update",
+        "parameters": [
+          {
+            "name": "product_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductUpdateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "404": {
+            "description": "path의 product_id가 RequestBody의 product_id와 일치하지 않음",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "InvalidInputException": {
+                    "description": "path의 product_id가 RequestBody의 product_id와 일치하지 않는 경우",
+                    "value": {
+                      "statusCode": 404,
+                      "message": "Product id mismatch for update request",
+                      "details": "uri=/v1/products/{product_id}"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "[구현4] 상품 삭제",
+        "operationId": "delete",
+        "parameters": [
+          {
+            "name": "product_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "정의되지 않은 상품에 대한 정보가 요청됨",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "ResourceNotFoundException": {
+                    "description": "상품 id가 존재하지 않은 경우",
+                    "value": {
+                      "statusCode": 404,
+                      "message": "Product not found with id: some-uui",
+                      "details": "uri=/v1/products/{product_id}"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/brands/{brand_id}": {
+      "get": {
+        "tags": [
+          "Brands"
+        ],
+        "summary": "특정 브랜드 정보",
+        "operationId": "get_1",
+        "parameters": [
+          {
+            "name": "brand_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "정의되지 않은 브랜드에 대한 정보가 요청됨",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "ResourceNotFoundException": {
+                    "description": "브랜드 id가 존재하지 않은 경우",
+                    "value": {
+                      "statusCode": 404,
+                      "message": "Brand not found with id: id",
+                      "details": "uri=/v1/brands/{brand_id}"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/BrandDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Brands"
+        ],
+        "summary": "[구현4] 브랜드 수정",
+        "operationId": "update_1",
+        "parameters": [
+          {
+            "name": "brand_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BrandUpdateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/BrandDTO"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "중복된 이름의 브랜드로 수정하려는 경우",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "DuplicateResourceException": {
+                    "description": "A 브랜드가 이미 존재하는데 A로 이름을 수정하려는 경우",
+                    "value": {
+                      "statusCode": 409,
+                      "message": "Brand name A already exists",
+                      "details": "uri=/v1/brands"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "정의되지 않은 브랜드에 대한 브랜드 수정이 요청됨",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "ResourceNotFoundException": {
+                    "description": "상품 id가 존재하지 않은 경우",
+                    "value": {
+                      "statusCode": 404,
+                      "message": "Brand not found with id: id",
+                      "details": "uri=/v1/brands/{brand_id}"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Brands"
+        ],
+        "summary": "[구현4] 브랜드 삭제",
+        "operationId": "delete_1",
+        "parameters": [
+          {
+            "name": "brand_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "정의되지 않은 브랜드에 대한 브랜드 삭제가 요청됨",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "ResourceNotFoundException": {
+                    "description": "브랜드 id가 존재하지 않은 경우",
+                    "value": {
+                      "statusCode": 404,
+                      "message": "Brand not found with id: id",
+                      "details": "uri=/v1/brands/{brand_id}"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/v1/products": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "전체 상품 목록",
+        "operationId": "list",
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/ProductFilterDTO"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductListResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "[구현4] 상품 추가",
+        "operationId": "create",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "404": {
+            "description": "정의되지 않은 카테고리가 요청됨",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "ResourceNotFoundException": {
+                    "description": "추가하려는 상품의 카테고리가 유효하지 않은 경우",
+                    "value": {
+                      "statusCode": 404,
+                      "message": "Category [신발] is not a valid category name. Available Categories: 상의, 아우터, 바지, 스니커즈, 가방, 모자, 양말, 액세서리",
+                      "details": "uri=/v1/products"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/brands": {
+      "get": {
+        "tags": [
+          "Brands"
+        ],
+        "summary": "전체 브랜드 목록",
+        "operationId": "list_1",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/BrandListResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Brands"
+        ],
+        "summary": "[구현4] 브랜드 추가",
+        "operationId": "create_1",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BrandCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/BrandDTO"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "이미 존재하는 이름의 브랜드를 추가하려 할 때",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "DuplicateResourceException": {
+                    "description": "A 브랜드가 이미 존재하는데 A브랜드를 추가하려는 경우",
+                    "value": {
+                      "statusCode": 409,
+                      "message": "Brand name A already exists",
+                      "details": "uri=/v1/brands"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/products:priceRangeByCategory": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "[구현3] 단일 브랜드로 구매 시 최저, 최고 가격에 판매하는 브랜드와 상품구성 및 가격",
+        "operationId": "getPriceRangeByCategory",
+        "parameters": [
+          {
+            "name": "category",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "정의되지 않은 카테고리가 요청됨",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "ResourceNotFoundException": {
+                    "description": "RequestParam 의 category 에 정의되지 않은 카테고리인 '신발'을 넣은 경우",
+                    "value": {
+                      "statusCode": 404,
+                      "message": "Category [신발] is not a valid category name. Available Categories: 상의, 아우터, 바지, 스니커즈, 가방, 모자, 양말, 액세서리",
+                      "details": "uri=/v1/products:priceRangeByCategory"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PriceRangeByCategoryResponse"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "응답 값이 없음",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "NoContentException": {
+                    "description": "해당 카테고리에 상품이 존재하지 않음"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/products:lowestPriceOutfit": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "[구현1] 카테고리 별 최소 금액 상품과 총액",
+        "operationId": "getLowestPriceOutfit",
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "원하는 브랜드와 카테고리만 필터링 하고 싶을 경우 (null 이거나 길이가 0인 리스트면 필터링 하지 않음을 의미)",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/ProductFilterDTO"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/LowestPriceOutfitResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "정의되지 않은 카테고리가 filter 로 요청됨",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "ResourceNotFoundException": {
+                    "description": "filter의 category에 정의되지 않은 카테고리인 '신발'을 넣은 경우",
+                    "value": {
+                      "statusCode": 404,
+                      "message": "Category [신발] is not a valid category name. Available Categories: 상의, 아우터, 바지, 스니커즈, 가방, 모자, 양말, 액세서리",
+                      "details": "uri=/v1/products:lowestPriceOutfit"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/products:lowestPriceOutfitBrand": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "[구현2] 단일 브랜드로 구매 시 최저 가격에 판매하는 브랜드와 상품구성 및 가격",
+        "operationId": "getLowestPriceOutfitBrand",
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/ProductCategoryFilterDTO"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/LowestPriceOutfitBrandResponse"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "응답 값이 없음",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "NoContentException": {
+                    "description": "모든 카테고리의 상품을 갖고 있는 브랜드가 존재하지 않음"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "정의되지 않은 카테고리가 filter 로 요청됨",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "ResourceNotFoundException": {
+                    "description": "filter의 category에 정의되지 않은 카테고리인 '신발'을 넣은 경우",
+                    "value": {
+                      "statusCode": 404,
+                      "message": "Category [신발] is not a valid category name. Available Categories: 상의, 아우터, 바지, 스니커즈, 가방, 모자, 양말, 액세서리",
+                      "details": "uri=/v1/products:lowestPriceOutfitBrand"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ProductUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "brandId": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "price": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "BrandDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "brandName": {
+            "type": "string"
+          }
+        }
+      },
+      "ProductDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "brand": {
+            "$ref": "#/components/schemas/BrandDTO"
+          },
+          "category": {
+            "type": "string"
+          },
+          "price": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "BrandUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "brandName": {
+            "type": "string"
+          }
+        }
+      },
+      "ProductCreateRequest": {
+        "type": "object",
+        "properties": {
+          "brandId": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "price": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "BrandCreateRequest": {
+        "type": "object",
+        "properties": {
+          "brandName": {
+            "type": "string"
+          }
+        }
+      },
+      "ProductFilterDTO": {
+        "type": "object",
+        "properties": {
+          "brandIds": {
+            "type": "array",
+            "description": "필터할 브랜드 id (size가 0일 시 필터하지 않음을 의미)",
+            "nullable": true,
+            "items": {
+              "type": "string",
+              "description": "필터할 브랜드 id (size가 0일 시 필터하지 않음을 의미)",
+              "nullable": true
+            }
+          },
+          "categories": {
+            "type": "array",
+            "description": "필터할 카테고리 (size가 0일 시 필터하지 않음을 의미)",
+            "nullable": true,
+            "items": {
+              "type": "string",
+              "description": "필터할 카테고리 (size가 0일 시 필터하지 않음을 의미)",
+              "nullable": true,
+              "enum": [
+                "상의, 아우터, 바지, 스니커즈, 가방, 모자, 양말, 액세서리"
+              ]
+            },
+            "enum": [
+              "상의, 아우터, 바지, 스니커즈, 가방, 모자, 양말, 액세서리"
+            ]
+          }
+        },
+        "description": "상품 필터",
+        "nullable": true
+      },
+      "ProductListResponse": {
+        "type": "object",
+        "properties": {
+          "products": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductDTO"
+            }
+          }
+        }
+      },
+      "PriceRangeByCategoryResponse": {
+        "type": "object",
+        "properties": {
+          "lowest": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductDTO"
+            }
+          },
+          "highest": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductDTO"
+            }
+          }
+        },
+        "description": "카테고리별 최소 가격 상품 리스트와 총액"
+      },
+      "LowestPriceOutfitResponse": {
+        "type": "object",
+        "properties": {
+          "products": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductDTO"
+            }
+          },
+          "totalPrice": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "description": "카테고리별 최소 가격 상품 리스트와 총액"
+      },
+      "ProductCategoryFilterDTO": {
+        "type": "object",
+        "properties": {
+          "categories": {
+            "type": "array",
+            "description": "필터할 카테고리 (size가 0일 시 필터하지 않음을 의미)",
+            "nullable": true,
+            "items": {
+              "type": "string",
+              "description": "필터할 카테고리 (size가 0일 시 필터하지 않음을 의미)",
+              "nullable": true,
+              "enum": [
+                "상의, 아우터, 바지, 스니커즈, 가방, 모자, 양말, 액세서리"
+              ]
+            },
+            "enum": [
+              "상의, 아우터, 바지, 스니커즈, 가방, 모자, 양말, 액세서리"
+            ]
+          }
+        },
+        "description": "상품 카테고리 필터",
+        "nullable": true
+      },
+      "LowestPriceOutfitBrandResponse": {
+        "type": "object",
+        "properties": {
+          "brandName": {
+            "type": "string"
+          },
+          "products": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductDTO"
+            }
+          },
+          "totalPrice": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "description": "단일 브랜드의 최저 상품 가격"
+      },
+      "BrandListResponse": {
+        "type": "object",
+        "properties": {
+          "brands": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BrandDTO"
+            }
+          }
+        }
+      }
+    }
+  }
+}

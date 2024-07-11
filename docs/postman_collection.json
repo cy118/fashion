@@ -1,0 +1,994 @@
+{
+	"info": {
+		"_postman_id": "dd65bb9f-c33b-46b2-b10a-390e322383f6",
+		"name": "Fashion",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "5525089"
+	},
+	"item": [
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "구현 1",
+					"item": [
+						{
+							"name": "기본 구현",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{product_url}}:lowestPriceOutfit",
+									"host": [
+										"{{product_url}}"
+									],
+									"port": "lowestPriceOutfit"
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "브랜드 아이디로 필터링",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"brandIds\":[\"000000000000000000000A\"]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{product_url}}:lowestPriceOutfit",
+									"host": [
+										"{{product_url}}"
+									],
+									"port": "lowestPriceOutfit"
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "카테고리로 필터링",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"categories\":[\"상의\", \"바지\"]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{product_url}}:lowestPriceOutfit",
+									"host": [
+										"{{product_url}}"
+									],
+									"port": "lowestPriceOutfit"
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "브랜드와 카테고리로 필터링",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"brandIds\":[\"000000000000000000000G\", \"000000000000000000000H\", \"000000000000000000000I\"],\r\n    \"categories\":[\"가방\", \"모자\", \"액세서리\"]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{product_url}}:lowestPriceOutfit",
+									"host": [
+										"{{product_url}}"
+									],
+									"port": "lowestPriceOutfit"
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "예외1) 잘못된 카테고리로 필터할 경우",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"brandIds\":[],\r\n    \"categories\":[\"양말\", \"신발\"]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{product_url}}:lowestPriceOutfit",
+									"host": [
+										"{{product_url}}"
+									],
+									"port": "lowestPriceOutfit"
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "구현2",
+					"item": [
+						{
+							"name": "기본 구현",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{product_url}}:lowestPriceOutfitBrand",
+									"host": [
+										"{{product_url}}"
+									],
+									"port": "lowestPriceOutfitBrand"
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "카테고리로 필터링",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"categories\":[\"가방\", \"양말\"]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{product_url}}:lowestPriceOutfitBrand",
+									"host": [
+										"{{product_url}}"
+									],
+									"port": "lowestPriceOutfitBrand"
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "예외1) 잘못된 카테고리로 필터할 경우",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"categories\":[\"양말\", \"신발\"]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{product_url}}:lowestPriceOutfitBrand",
+									"host": [
+										"{{product_url}}"
+									],
+									"port": "lowestPriceOutfitBrand"
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "구현3",
+					"item": [
+						{
+							"name": "기본 구현",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{product_url}}:priceRangeByCategory?category=스니커즈",
+									"host": [
+										"{{product_url}}"
+									],
+									"port": "priceRangeByCategory",
+									"query": [
+										{
+											"key": "category",
+											"value": "스니커즈",
+											"description": "상의, 아우터, 바지, 스니커즈, 가방, 모자, 양말, 액세서리"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "예외1) 잘못된 카테고리를 쿼리할 경우",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{product_url}}:priceRangeByCategory?category=신발",
+									"host": [
+										"{{product_url}}"
+									],
+									"port": "priceRangeByCategory",
+									"query": [
+										{
+											"key": "category",
+											"value": "신발",
+											"description": "상의, 아우터, 바지, 스니커즈, 가방, 모자, 양말, 액세서리"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "구현4",
+					"item": [
+						{
+							"name": "상품 추가",
+							"item": [
+								{
+									"name": "기본 구현",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"brandId\": \"000000000000000000000A\",\r\n    \"category\": \"상의\",\r\n    \"price\": 2000\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{product_url}}",
+											"host": [
+												"{{product_url}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "예외1) 존재하지 않는 브랜드의 상품을 추가할 경우",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"brandId\": \"00000000000000000WRONG\",\r\n    \"category\": \"상의\",\r\n    \"price\": 2000\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{product_url}}",
+											"host": [
+												"{{product_url}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "예외2) 존재하지 않는 카테고리의 상품을 추가할 경우",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"brandId\": \"000000000000000000000A\",\r\n    \"category\": \"우산\",\r\n    \"price\": 2000\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{product_url}}",
+											"host": [
+												"{{product_url}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "상품 수정",
+							"item": [
+								{
+									"name": "기본 구현",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"id\": \"000000000000000000TEST\",\r\n    \"brandId\": \"000000000000000000000A\",\r\n    \"category\": \"상의\",\r\n    \"price\": 9900\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{product_url}}/000000000000000000TEST",
+											"host": [
+												"{{product_url}}"
+											],
+											"path": [
+												"000000000000000000TEST"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "예외1) 존재하지 않는 상품을 수정할 경우",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"id\": \"00000000000000000TEST2\",\r\n    \"brandId\": \"000000000000000000000A\",\r\n    \"category\": \"상의\",\r\n    \"price\": 9900\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{product_url}}/00000000000000000TEST2",
+											"host": [
+												"{{product_url}}"
+											],
+											"path": [
+												"00000000000000000TEST2"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "예외2) 존재하지 않는 브랜드의 상품을 수정할 경우",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"id\": \"000000000000000000TEST\",\r\n    \"brandId\": \"00000000000000000WRONG\",\r\n    \"category\": \"상의\",\r\n    \"price\": 9900\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{product_url}}/000000000000000000TEST",
+											"host": [
+												"{{product_url}}"
+											],
+											"path": [
+												"000000000000000000TEST"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "예외3) 존재하지 않는 카테고리의 상품을 수정할 경우",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"id\": \"000000000000000000TEST\",\r\n    \"brandId\": \"000000000000000000000A\",\r\n    \"category\": \"우산\",\r\n    \"price\": 9900\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{product_url}}/000000000000000000TEST",
+											"host": [
+												"{{product_url}}"
+											],
+											"path": [
+												"000000000000000000TEST"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "예외4) 수정하려는 상품과 endpoint가 일치하지 않는 경우",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"id\": \"00000000000000000TEST2\",\r\n    \"brandId\": \"000000000000000000000A\",\r\n    \"category\": \"상의\",\r\n    \"price\": 9900\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{product_url}}/000000000000000000TEST",
+											"host": [
+												"{{product_url}}"
+											],
+											"path": [
+												"000000000000000000TEST"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "상품 삭제",
+							"item": [
+								{
+									"name": "기본 구현",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{product_url}}/000000000000000000TEST",
+											"host": [
+												"{{product_url}}"
+											],
+											"path": [
+												"000000000000000000TEST"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "예외1) 존재하지 않는 상품인 경우",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{product_url}}/00000000000000000TEST2",
+											"host": [
+												"{{product_url}}"
+											],
+											"path": [
+												"00000000000000000TEST2"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "추가 구현",
+					"item": [
+						{
+							"name": "상품 리스트",
+							"item": [
+								{
+									"name": "기본 구현",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{product_url}}",
+											"host": [
+												"{{product_url}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "브랜드 아이디로 필터링",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"brandIds\":[\"000000000000000000000C\"]\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{product_url}}",
+											"host": [
+												"{{product_url}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "카테고리로 필터링",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"categories\":[\"상의\"]\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{product_url}}",
+											"host": [
+												"{{product_url}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "브랜드와 카테고리로 필터링",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"brandIds\":[\"000000000000000000000D\"],\r\n    \"categories\":[\"가방\", \"모자\", \"액세서리\"]\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{product_url}}",
+											"host": [
+												"{{product_url}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "예외1) 잘못된 카테고리로 필터할 경우",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"categories\":[\"양말\", \"신발\"]\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{product_url}}",
+											"host": [
+												"{{product_url}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "상품 정보",
+							"item": [
+								{
+									"name": "기본 구현",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{product_url}}/000000000000000000TEST",
+											"host": [
+												"{{product_url}}"
+											],
+											"path": [
+												"000000000000000000TEST"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "예외1) 존재하지 않는 상품인 경우",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{product_url}}/00000000000000000TEST2",
+											"host": [
+												"{{product_url}}"
+											],
+											"path": [
+												"00000000000000000TEST2"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Brands",
+			"item": [
+				{
+					"name": "구현4",
+					"item": [
+						{
+							"name": "브랜드 추가",
+							"item": [
+								{
+									"name": "기본 구현",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"brandName\": \"NewBrandZ\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{brand_url}}",
+											"host": [
+												"{{brand_url}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "예외1) 중복된 이름의 브랜드의 상품을 추가할 경우",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"brandName\": \"A\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{brand_url}}",
+											"host": [
+												"{{brand_url}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "브랜드 수정",
+							"item": [
+								{
+									"name": "기본 구현",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"id\": \"000000000000000000000A\",\r\n    \"brandName\": \"NewA\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{brand_url}}/000000000000000000000A",
+											"host": [
+												"{{brand_url}}"
+											],
+											"path": [
+												"000000000000000000000A"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "예외1) 존재하지 않는 브랜드를 수정할 경우",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"id\": \"000000000000000000TEST\",\r\n    \"brandName\": \"NewA\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{brand_url}}/000000000000000000TEST",
+											"host": [
+												"{{brand_url}}"
+											],
+											"path": [
+												"000000000000000000TEST"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "예외2) 수정하려는 브랜드와 endpoint가 일치하지 않는 경우",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"id\": \"000000000000000000000A\",\r\n    \"brandName\": \"NewA\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{brand_url}}/000000000000000000TEST",
+											"host": [
+												"{{brand_url}}"
+											],
+											"path": [
+												"000000000000000000TEST"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "예외3) 중복된 이름의 브랜드로 수정하려는 경우",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"id\": \"000000000000000000000A\",\r\n    \"brandName\": \"B\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{brand_url}}/000000000000000000000A",
+											"host": [
+												"{{brand_url}}"
+											],
+											"path": [
+												"000000000000000000000A"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "브랜드 삭제",
+							"item": [
+								{
+									"name": "기본 구현",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{brand_url}}/000000000000000000000A",
+											"host": [
+												"{{brand_url}}"
+											],
+											"path": [
+												"000000000000000000000A"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "예외1) 존재하지 않는 브랜드인 경우",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{brand_url}}/000000000000000000TEST",
+											"host": [
+												"{{brand_url}}"
+											],
+											"path": [
+												"000000000000000000TEST"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "추가 구현",
+					"item": [
+						{
+							"name": "브랜드 리스트",
+							"item": [
+								{
+									"name": "기본 구현",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{brand_url}}",
+											"host": [
+												"{{brand_url}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "브랜드 정보",
+							"item": [
+								{
+									"name": "기본 구현",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{brand_url}}/000000000000000000000A",
+											"host": [
+												"{{brand_url}}"
+											],
+											"path": [
+												"000000000000000000000A"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "예외1) 존재하지 않는 브랜드인 경우",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{brand_url}}/000000000000000000TEST",
+											"host": [
+												"{{brand_url}}"
+											],
+											"path": [
+												"000000000000000000TEST"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	]
+}
