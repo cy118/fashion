@@ -5,6 +5,7 @@ import com.cy.fashion.brand.entity.BrandEntity;
 import com.cy.fashion.product.domain.Product;
 import com.cy.fashion.product.domain.ProductCategory;
 import com.cy.fashion.product.dto.ProductCategoryFilterDTO;
+import com.cy.fashion.product.dto.ProductDTO;
 import com.cy.fashion.product.dto.ProductFilterDTO;
 import com.cy.fashion.product.dto.request.ProductCreateRequest;
 import com.cy.fashion.product.dto.request.ProductUpdateRequest;
@@ -29,7 +30,7 @@ public class ProductService {
         this.brandRepository = brandRepository;
     }
 
-    public List<Product> getLowestPriceOutfit(ProductFilterDTO filter) {
+    public List<ProductDTO> getLowestPriceOutfit(ProductFilterDTO filter) {
         List<ProductCategory> categories;
         List<UUID> brandIds;
         // set category filter
@@ -48,26 +49,26 @@ public class ProductService {
             }
         }
         List<ProductEntity> entities = productRepository.findLowestPricedProductsByCategories(categories, brandIds);
-        List<Product> products = new ArrayList<>();
+        List<ProductDTO> products = new ArrayList<>();
 
         if (categories == null) {
             categories = new ArrayList<>(Arrays.asList(ProductCategory.values()));
         }
         // change entity to domain
         for (ProductEntity productEntity : entities) {
-            products.add(Product.fromEntity(productEntity));
+            products.add(ProductDTO.fromDomain(Product.fromEntity(productEntity)));
             categories.remove(productEntity.getCategory());
         }
 
         // set category products to null if no products exists in a category
         for (ProductCategory category : categories) {
-            products.add(new Product(null, null, category, 0));
+            products.add(new ProductDTO(null, null, category.getCategoryName(), 0));
         }
 
         return products;
     }
 
-    public List<Product> getLowestPriceOutfitBrand(ProductCategoryFilterDTO filter) {
+    public List<ProductDTO> getLowestPriceOutfitBrand(ProductCategoryFilterDTO filter) {
         List<ProductCategory> categories;
         // set category filter
         if (filter == null) {
@@ -82,16 +83,16 @@ public class ProductService {
             throw new NoContentException("No brand exists that has products in all categories");
         }
 
-        List<Product> products = new ArrayList<>();
+        List<ProductDTO> products = new ArrayList<>();
 
         // change entity to domain
         for (ProductEntity productEntity : entities) {
-            products.add(Product.fromEntity(productEntity));
+            products.add(ProductDTO.fromDomain(Product.fromEntity(productEntity)));
         }
         return products;
     }
 
-    public List<Product>[] getPriceRangeByCategory(String category) {
+    public List<ProductDTO>[] getPriceRangeByCategory(String category) {
         ProductCategory productCategory = ProductCategoryValidator.toCategory(category);
 
         List<ProductEntity> entities = productRepository.findPriceRangeByCategory(productCategory);
@@ -99,8 +100,8 @@ public class ProductService {
         if (entities.isEmpty()) {
             throw new NoContentException("No product exists in requested category");
         }
-        List<Product> lowest = new ArrayList<>();
-        List<Product> highest = new ArrayList<>();
+        List<ProductDTO> lowest = new ArrayList<>();
+        List<ProductDTO> highest = new ArrayList<>();
 
         int lowestPrice = Integer.MAX_VALUE;
         for (ProductEntity product : entities) {
@@ -110,9 +111,9 @@ public class ProductService {
         }
         for (ProductEntity productEntity : entities) {
             if (lowestPrice < productEntity.getPrice()) {
-                highest.add(Product.fromEntity(productEntity));
+                highest.add(ProductDTO.fromDomain(Product.fromEntity(productEntity)));
             } else {
-                lowest.add(Product.fromEntity(productEntity));
+                lowest.add(ProductDTO.fromDomain(Product.fromEntity(productEntity)));
             }
         }
         if (lowest.size() == 2 && highest.size() == 0) {
@@ -124,7 +125,7 @@ public class ProductService {
     }
 
     @Transactional
-    public Product createProduct(ProductCreateRequest product) {
+    public ProductDTO createProduct(ProductCreateRequest product) {
         ProductCategory category = ProductCategoryValidator.toCategory(product.category);
 
         Optional<BrandEntity> brandEntity;
@@ -135,11 +136,11 @@ public class ProductService {
         }
 
         ProductEntity entity = productRepository.save(ProductEntity.fromCreateRequest(product, category));
-        return Product.fromEntity(entity, brandEntity.get());
+        return ProductDTO.fromDomain(Product.fromEntity(entity, brandEntity.get()));
     }
 
     @Transactional
-    public Product updateProduct(ProductUpdateRequest product) {
+    public ProductDTO updateProduct(ProductUpdateRequest product) {
         ProductCategory category = ProductCategoryValidator.toCategory(product.category);
         // check if product exists
         if (productRepository.findById(Base62Codec.INSTANCE.decode(product.id)).isEmpty()) {
@@ -154,7 +155,7 @@ public class ProductService {
         }
 
         ProductEntity entity = productRepository.save(ProductEntity.fromUpdateRequest(product, category));
-        return Product.fromEntity(entity, brandEntity.get());
+        return ProductDTO.fromDomain(Product.fromEntity(entity, brandEntity.get()));
     }
 
     @Transactional
@@ -166,7 +167,7 @@ public class ProductService {
         productRepository.deleteById(Base62Codec.INSTANCE.decode(productId));
     }
 
-    public List<Product> getList(ProductFilterDTO filter) {
+    public List<ProductDTO> getList(ProductFilterDTO filter) {
         List<ProductEntity> entities;
         if (filter == null) {
             entities = productRepository.findAllWithBrand();
@@ -184,17 +185,16 @@ public class ProductService {
 
             entities = productRepository.findAllByFilter(categories, brandIds);
         }
-        List<Product> products = new ArrayList<>();
+        List<ProductDTO> products = new ArrayList<>();
 
         // change entity to domain
         for (ProductEntity productEntity : entities) {
-            products.add(Product.fromEntity(productEntity));
+            products.add(ProductDTO.fromDomain(Product.fromEntity(productEntity)));
         }
         return products;
     }
 
-    @Transactional
-    public Product getProduct(String productId) {
+    public ProductDTO getProduct(String productId) {
         Optional<ProductEntity> entity;
         entity = productRepository.findById(Base62Codec.INSTANCE.decode(productId));
         if (entity.isEmpty()) {
@@ -202,6 +202,6 @@ public class ProductService {
         }
 
         BrandEntity brandEntity = brandRepository.getReferenceById(entity.get().getBrandId());
-        return Product.fromEntity(entity.get(), brandEntity);
+        return ProductDTO.fromDomain(Product.fromEntity(entity.get(), brandEntity));
     }
 }

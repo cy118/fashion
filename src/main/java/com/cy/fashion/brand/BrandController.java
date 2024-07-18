@@ -1,7 +1,6 @@
 package com.cy.fashion.brand;
 
 
-import com.cy.fashion.brand.domain.Brand;
 import com.cy.fashion.brand.dto.BrandDTO;
 import com.cy.fashion.brand.dto.request.BrandCreateRequest;
 import com.cy.fashion.brand.dto.request.BrandUpdateRequest;
@@ -14,6 +13,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,10 +45,8 @@ public class BrandController {
                     "}")
         }, mediaType = MediaType.APPLICATION_JSON_VALUE))})
     @PostMapping("/v1/brands")
-    public BrandDTO create(@RequestBody BrandCreateRequest brand) {
-        Brand created = brandService.createBrand(brand);
-
-        return BrandDTO.fromDomain(created);
+    public BrandDTO create(@RequestBody @Valid BrandCreateRequest brand) {
+        return brandService.createBrand(brand);
     }
 
     /**
@@ -85,13 +83,11 @@ public class BrandController {
                     "}")
         }, mediaType = MediaType.APPLICATION_JSON_VALUE))})
     @PutMapping("/v1/brands/{brand_id}")
-    public BrandDTO update(@PathVariable(name = "brand_id") String brandId, @RequestBody BrandUpdateRequest brand) {
+    public BrandDTO update(@PathVariable(name = "brand_id") String brandId, @RequestBody @Valid BrandUpdateRequest brand) {
         if (!brandId.equals(brand.id)) {
             throw new InvalidInputException("Brand id mismatch for update request.");
         }
-        Brand updated = brandService.updateBrand(brand);
-
-        return BrandDTO.fromDomain(updated);
+        return brandService.updateBrand(brand);
     }
 
     /**
@@ -122,9 +118,9 @@ public class BrandController {
         @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = BrandListResponse.class)))})
     @GetMapping("/v1/brands")
     public BrandListResponse list() {
-        List<Brand> brands = brandService.getList();
+        List<BrandDTO> brands = brandService.getList();
 
-        return BrandListResponse.fromDomain(brands);
+        return new BrandListResponse(brands);
     }
 
     /**
@@ -144,8 +140,6 @@ public class BrandController {
         }, mediaType = MediaType.APPLICATION_JSON_VALUE))})
     @GetMapping("/v1/brands/{brand_id}")
     public BrandDTO get(@PathVariable(name = "brand_id") String brandId) {
-        Brand updated = brandService.getBrand(brandId);
-
-        return BrandDTO.fromDomain(updated);
+        return brandService.getBrand(brandId);
     }
 }

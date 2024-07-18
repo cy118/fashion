@@ -1,11 +1,9 @@
 package com.cy.fashion.product.dto.response;
 
-import com.cy.fashion.product.domain.Product;
 import com.cy.fashion.product.dto.ProductDTO;
 import lombok.AllArgsConstructor;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,13 +15,11 @@ public class LowestPriceOutfitResponse {
     public List<ProductDTO> products;
     public int totalPrice;
 
-    public static LowestPriceOutfitResponse fromDomain(List<Product> products) {
-        List<ProductDTO> dtos = new ArrayList<>();
+    public static LowestPriceOutfitResponse fromResult(List<ProductDTO> products) {
         int totalPrice = 0;
-        for (Product product : products) {
-            dtos.add(ProductDTO.fromDomain(product));
-            totalPrice += product.getPrice();
+        for (ProductDTO product : products) {
+            totalPrice += product.price;
         }
-        return new LowestPriceOutfitResponse(dtos, totalPrice);
+        return new LowestPriceOutfitResponse(products, totalPrice);
     }
 }

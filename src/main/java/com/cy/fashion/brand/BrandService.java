@@ -1,6 +1,7 @@
 package com.cy.fashion.brand;
 
 import com.cy.fashion.brand.domain.Brand;
+import com.cy.fashion.brand.dto.BrandDTO;
 import com.cy.fashion.brand.dto.request.BrandCreateRequest;
 import com.cy.fashion.brand.dto.request.BrandUpdateRequest;
 import com.cy.fashion.brand.entity.BrandEntity;
@@ -26,17 +27,17 @@ public class BrandService {
     }
 
     @Transactional
-    public Brand createBrand(BrandCreateRequest brand) {
+    public BrandDTO createBrand(BrandCreateRequest brand) {
         // check if brand name exists
         if (brandRepository.findByBrandName(brand.brandName) != null) {
             throw new DuplicateResourceException(String.format("Brand name %s already exists", brand.brandName));
         }
         BrandEntity entity = brandRepository.save(BrandEntity.fromCreateRequest(brand));
-        return Brand.fromEntity(entity);
+        return BrandDTO.fromDomain(Brand.fromEntity(entity));
     }
 
     @Transactional
-    public Brand updateBrand(BrandUpdateRequest brand) {
+    public BrandDTO updateBrand(BrandUpdateRequest brand) {
         // check if brand exists
         if (brandRepository.findById(Base62Codec.INSTANCE.decode(brand.id)).isEmpty()) {
             throw new ResourceNotFoundException("Brand not found with id: " + brand.id);
@@ -48,7 +49,7 @@ public class BrandService {
         }
 
         BrandEntity entity = brandRepository.save(BrandEntity.fromUpdateRequest(brand));
-        return Brand.fromEntity(entity);
+        return BrandDTO.fromDomain(Brand.fromEntity(entity));
     }
 
     @Transactional
@@ -66,25 +67,24 @@ public class BrandService {
         brandRepository.deleteById(brandUUID);
     }
 
-    public List<Brand> getList() {
+    public List<BrandDTO> getList() {
         List<BrandEntity> entities;
         entities = brandRepository.findAll();
-        List<Brand> brands = new ArrayList<>();
+        List<BrandDTO> brands = new ArrayList<>();
 
         // change entity to domain
         for (BrandEntity brandEntity : entities) {
-            brands.add(Brand.fromEntity(brandEntity));
+            brands.add(BrandDTO.fromDomain(Brand.fromEntity(brandEntity)));
         }
         return brands;
     }
 
-    @Transactional
-    public Brand getBrand(String brandId) {
+    public BrandDTO getBrand(String brandId) {
         Optional<BrandEntity> entity;
         entity = brandRepository.findById(Base62Codec.INSTANCE.decode(brandId));
         if (entity.isEmpty()) {
             throw new ResourceNotFoundException("Brand not found with id: " + brandId);
         }
-        return Brand.fromEntity(entity.get());
+        return BrandDTO.fromDomain(Brand.fromEntity(entity.get()));
     }
 }

@@ -1,6 +1,5 @@
 package com.cy.fashion.product;
 
-import com.cy.fashion.product.domain.Product;
 import com.cy.fashion.product.dto.*;
 import com.cy.fashion.product.dto.request.ProductCreateRequest;
 import com.cy.fashion.product.dto.request.ProductUpdateRequest;
@@ -17,6 +16,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -53,9 +53,9 @@ public class ProductController {
         }, mediaType = MediaType.APPLICATION_JSON_VALUE))})
     @GetMapping("/v1/products:lowestPriceOutfit")
     public LowestPriceOutfitResponse getLowestPriceOutfit(@RequestBody Optional<ProductFilterDTO> filter) {
-        List<Product> products = productService.getLowestPriceOutfit(filter.orElse(null));
+        List<ProductDTO> products = productService.getLowestPriceOutfit(filter.orElse(null));
 
-        return LowestPriceOutfitResponse.fromDomain(products);
+        return LowestPriceOutfitResponse.fromResult(products);
     }
 
     /**
@@ -79,9 +79,9 @@ public class ProductController {
         }, mediaType = MediaType.APPLICATION_JSON_VALUE))})
     @GetMapping("/v1/products:lowestPriceOutfitBrand")
     public LowestPriceOutfitBrandResponse getLowestPriceOutfitBrand(@RequestBody Optional<ProductCategoryFilterDTO> filter) {
-        List<Product> products = productService.getLowestPriceOutfitBrand(filter.orElse(null));
+        List<ProductDTO> products = productService.getLowestPriceOutfitBrand(filter.orElse(null));
 
-        return LowestPriceOutfitBrandResponse.fromDomain(products);
+        return LowestPriceOutfitBrandResponse.fromResult(products);
     }
 
     /**
@@ -105,9 +105,9 @@ public class ProductController {
         }, mediaType = MediaType.APPLICATION_JSON_VALUE))})
     @GetMapping("/v1/products:priceRangeByCategory")
     public PriceRangeByCategoryResponse getPriceRangeByCategory(@RequestParam String category) {
-        List<Product>[] products = productService.getPriceRangeByCategory(category);
+        List<ProductDTO>[] products = productService.getPriceRangeByCategory(category);
 
-        return PriceRangeByCategoryResponse.fromDomain(products[0], products[1]);
+        return new PriceRangeByCategoryResponse(products[0], products[1]);
     }
 
     /**
@@ -135,10 +135,8 @@ public class ProductController {
                     "}")
         }, mediaType = MediaType.APPLICATION_JSON_VALUE))})
     @PostMapping("/v1/products")
-    public ProductDTO create(@RequestBody ProductCreateRequest product) {
-        Product created = productService.createProduct(product);
-
-        return ProductDTO.fromDomain(created);
+    public ProductDTO create(@RequestBody @Valid ProductCreateRequest product) {
+        return productService.createProduct(product);
     }
 
     /**
@@ -184,13 +182,11 @@ public class ProductController {
                     "}")
         }, mediaType = MediaType.APPLICATION_JSON_VALUE))})
     @PutMapping("/v1/products/{product_id}")
-    public ProductDTO update(@PathVariable(name = "product_id") String productId, @RequestBody ProductUpdateRequest product) {
+    public ProductDTO update(@PathVariable(name = "product_id") String productId, @RequestBody @Valid ProductUpdateRequest product) {
         if (!productId.equals(product.id)) {
             throw new InvalidInputException("Product id mismatch for update request.");
         }
-        Product updated = productService.updateProduct(product);
-
-        return ProductDTO.fromDomain(updated);
+        return productService.updateProduct(product);
     }
 
     /**
@@ -221,9 +217,9 @@ public class ProductController {
         @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = ProductListResponse.class)))})
     @GetMapping("/v1/products")
     public ProductListResponse list(@RequestBody Optional<ProductFilterDTO> filter) {
-        List<Product> products = productService.getList(filter.orElse(null));
+        List<ProductDTO> products = productService.getList(filter.orElse(null));
 
-        return ProductListResponse.fromDomain(products);
+        return new ProductListResponse(products);
     }
 
     /**
@@ -243,8 +239,6 @@ public class ProductController {
         }, mediaType = MediaType.APPLICATION_JSON_VALUE))})
     @GetMapping("/v1/products/{product_id}")
     public ProductDTO get(@PathVariable(name = "product_id") String productId) {
-        Product updated = productService.getProduct(productId);
-
-        return ProductDTO.fromDomain(updated);
+        return productService.getProduct(productId);
     }
 }

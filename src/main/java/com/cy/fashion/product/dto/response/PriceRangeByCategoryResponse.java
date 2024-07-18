@@ -1,11 +1,9 @@
 package com.cy.fashion.product.dto.response;
 
-import com.cy.fashion.product.domain.Product;
 import com.cy.fashion.product.dto.ProductDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -17,16 +15,4 @@ import java.util.List;
 public class PriceRangeByCategoryResponse {
     public List<ProductDTO> lowest;
     public List<ProductDTO> highest;
-
-    public static PriceRangeByCategoryResponse fromDomain(List<Product> lowest, List<Product> highest) {
-        List<ProductDTO> lowestDtos = new ArrayList<>();
-        for (Product product : lowest) {
-            lowestDtos.add(ProductDTO.fromDomain(product));
-        }
-        List<ProductDTO> highestDtos = new ArrayList<>();
-        for (Product product : highest) {
-            highestDtos.add(ProductDTO.fromDomain(product));
-        }
-        return new PriceRangeByCategoryResponse(lowestDtos, highestDtos);
-    }
 }
